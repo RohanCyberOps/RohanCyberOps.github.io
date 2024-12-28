@@ -19,16 +19,17 @@ Here, you'll find my journey through code, from **cybersecurity projects** 🔐 
 ---
 
 # 💫 About Me:
-⚡Founder- RxpexInfinity<br>🔭 I’m currently working on RxpexInfinity<br>👯 I’m looking to collaborate on RxpexInfinity<br>🤝 I’m looking for help with Algorithms.<br>🌱 I’m currently learning Machine learning and artificial intelligence.<br>💬 Myself Rohan Naagar<br>⚡ Nothing is finite
-
+💬 Myself Rohan Naagar<br>
+⚡Founder- InnovateX <br>
+🤝 I’m looking for help with Algorithms.<br>
+👀  I’m currently learning Artificial intelligence(AI),Artificial General Intelligence (AGI), Machine Learning, Deep Learning, Natural Language Processing and Large Language Models.<br>
+🌱 Research Interests: Deep Learning, OpenCV, LLMs.<br>
+😊 Build technologies that increase the cumulative density of magic in the world!<br>
+⚡ Nothing is finite<br>
+📍 Gurugram, Haryana<br>
 
 ## 🌐 Socials:
-[![Discord](https://img.shields.io/badge/Discord-%237289DA.svg?logo=discord&logoColor=white)](https://discord.gg/https://discord.gg/5MqMm78b) [![Facebook](https://img.shields.io/badge/Facebook-%231877F2.svg?logo=Facebook&logoColor=white)](https://facebook.com/https://www.facebook.com/chrohangurjar15) [![Instagram](https://img.shields.io/badge/Instagram-%23E4405F.svg?logo=Instagram&logoColor=white)](https://instagram.com/https://www.instagram.com/chrohangurjar1/) [![LinkedIn](https://img.shields.io/badge/LinkedIn-%230077B5.svg?logo=linkedin&logoColor=white)](https://linkedin.com/in/https://www.linkedin.com/in/rohan-naagar-779310322/?trk=public-profile-join-page) 
-[![Stack Overflow](https://img.shields.io/badge/Stack%20Overflow-F58025.svg?logo=stackoverflow&logoColor=white)](https://stackoverflow.com/users/28312314/rohan)
-[![Google Developers](https://img.shields.io/badge/Google%20Developers-%234285F4.svg?logo=google&logoColor=white)](https://developers.google.com/profile/u/Chrohangurjar)
-[![Commudle](https://img.shields.io/badge/Commudle-%23F9A602.svg?logo=google-chrome&logoColor=white)](https://www.commudle.com/users/chrohangurjar)
-[![Reddit](https://img.shields.io/badge/Reddit-%23FF4500.svg?logo=reddit&logoColor=white)](https://www.reddit.com/user/chrohangurjar/)
-
+[![Email](https://img.shields.io/badge/Email-D14836.svg?logo=gmail&logoColor=white)](mailto:Rohan150907@gmail.com)  [![WhatsApp](https://img.shields.io/badge/WhatsApp-25D366.svg?logo=whatsapp&logoColor=white)](https://wa.me/919466386495)  [![Telegram](https://img.shields.io/badge/Telegram-%232CA5E0.svg?logo=telegram&logoColor=white)](https://t.me/chrohangurjar)  [![SMS](https://img.shields.io/badge/SMS-0A74DA.svg?logo=sms&logoColor=white)](sms:+919466386495)  [![X](https://img.shields.io/badge/X-%231DA1F2.svg?logo=Twitter&logoColor=white)](https://x.com/chrohangurjar)  [![Discord](https://img.shields.io/badge/Discord-%237289DA.svg?logo=discord&logoColor=white)](https://discord.gg/GtmzfW5Wap)  [![Facebook](https://img.shields.io/badge/Facebook-%231877F2.svg?logo=Facebook&logoColor=white)](https://www.facebook.com/chrohangurjar1)  [![Instagram](https://img.shields.io/badge/Instagram-%23E4405F.svg?logo=Instagram&logoColor=white)](https://www.instagram.com/chrohangurjar1/)  [![LinkedIn](https://img.shields.io/badge/LinkedIn-%230077B5.svg?logo=linkedin&logoColor=white)](https://www.linkedin.com/in/rohan-naagar-779310322/)  [![Stack Overflow](https://img.shields.io/badge/Stack%20Overflow-F58025.svg?logo=stackoverflow&logoColor=white)](https://stackoverflow.com/users/28312314/rohan)  [![Google Developers](https://img.shields.io/badge/Google%20Developers-%234285F4.svg?logo=google&logoColor=white)](https://developers.google.com/profile/u/Chrohangurjar)  [![Commudle](https://img.shields.io/badge/Commudle-%23F9A602.svg?logo=google-chrome&logoColor=white)](https://www.commudle.com/users/chrohangurjar)  [![Reddit](https://img.shields.io/badge/Reddit-%23FF4500.svg?logo=reddit&logoColor=white)](https://www.reddit.com/user/chrohangurjar/)  [![HackenProof](https://img.shields.io/badge/HackenProof-%230F4C75.svg?logo=hacken&logoColor=white)](https://hackenproof.com/hackers/RohanCyberOps)
 
 
 # 💻 Tech Stack:
@@ -60,26 +61,29 @@ Here, you'll find my journey through code, from **cybersecurity projects** 🔐 
 ### ✍️ Random Dev Quote
 ![](https://quotes-github-readme.vercel.app/api?type=horizontal&theme=radical)
 
+
+
+
+
+
+
+
+
 ## 🌟 Contributors
 
 We want to give a huge shoutout to everyone who has contributed to the project! 🙌 Your hard work and dedication help make these repo's better every day. 💪
 
-<a href="https://github.com/chrohangurjar1/RustWeatherApp/graphs/contributors">
-  <img alt="RustWeatherApp contributors" height='48' src="https://contrib.rocks/image?repo=chrohangurjar1/RustWeatherApp&columns=24" />
+<a href="https://github.com/chrohangurjar/Rust-Weather--App/graphs/contributors">
+  <img alt="Rust-Weather-App contributors" height='48' src="https://contrib.rocks/image?repo=chrohangurjar/Rust-Weather-App&columns=24" />
 </a>
 
 🎉 Thank you all for your amazing contributions! Let's keep building together. 🚀
+
 ---
 
   ## 💰 You can help me by Donating
   [![PayPal](https://img.shields.io/badge/PayPal-00457C?style=for-the-badge&logo=paypal&logoColor=white)](https://paypal.me/RohanNaagar) 
 
-  
-<!-- Proudly created with GPRM (https://gprm.itsvg.in) -->
----
-
+ <!-- Proudly created with GPRM (https://gprm.itsvg.in) -->
 [![Visitor Count](https://visitcount.itsvg.in/api?id=RohanCyberOps&icon=2&color=0)](https://visitcount.itsvg.in)
-
-
----
 
