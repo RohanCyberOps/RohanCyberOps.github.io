@@ -20,7 +20,7 @@ Here, you'll find my journey through code, from **cybersecurity projects** 🔐 
 
 # 💫 About Me:
 💬 Myself Rohan Naagar<br>
-⚡Founder- InnovateX <br>
+⚡Work at - <br>
 🤝 I’m looking for help with Algorithms.<br>
 👀  I’m currently learning Artificial intelligence(AI),Artificial General Intelligence (AGI), Machine Learning, Deep Learning, Natural Language Processing and Large Language Models.<br>
 🌱 Research Interests: Deep Learning, OpenCV, LLMs.<br>
