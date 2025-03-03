@@ -14,7 +14,7 @@ const Navbar: React.FC<NavbarProps> = ({ darkMode, toggleDarkMode, menuOpen, tog
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between h-16">
           <div className="flex items-center">
-            <a href="#" className="flex items-center">
+            <a href="https://RohanCyberOps.github.io/" className="flex items-center">
               <Shield className="h-8 w-8 text-blue-500" />
               <span className="ml-2 text-xl font-bold tracking-tighter">RohanCyberOps</span>
             </a>

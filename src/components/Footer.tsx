@@ -78,31 +78,31 @@ const Footer: React.FC = () => {
             <h3 className="text-lg font-semibold text-white mb-4">Services</h3>
             <ul className="space-y-2">
               <li>
-                <a href="#" className="flex items-center text-gray-400 hover:text-blue-400 transition-colors">
+                <a href="https://Support.github.io/" className="flex items-center text-gray-400 hover:text-blue-400 transition-colors">
                   <ChevronRight className="h-4 w-4 mr-1" />
                   Penetration Testing
                 </a>
               </li>
               <li>
-                <a href="#" className="flex items-center text-gray-400 hover:text-blue-400 transition-colors">
+                <a href="https://Support.github.io/" className="flex items-center text-gray-400 hover:text-blue-400 transition-colors">
                   <ChevronRight className="h-4 w-4 mr-1" />
                   Security Audits
                 </a>
               </li>
               <li>
-                <a href="#" className="flex items-center text-gray-400 hover:text-blue-400 transition-colors">
+                <a href="https://Support.github.io/" className="flex items-center text-gray-400 hover:text-blue-400 transition-colors">
                   <ChevronRight className="h-4 w-4 mr-1" />
                   Incident Response
                 </a>
               </li>
               <li>
-                <a href="#" className="flex items-center text-gray-400 hover:text-blue-400 transition-colors">
+                <a href="https://Support.github.io/" className="flex items-center text-gray-400 hover:text-blue-400 transition-colors">
                   <ChevronRight className="h-4 w-4 mr-1" />
                   Security Training
                 </a>
               </li>
               <li>
-                <a href="#" className="flex items-center text-gray-400 hover:text-blue-400 transition-colors">
+                <a href="https://Support.github.io/" className="flex items-center text-gray-400 hover:text-blue-400 transition-colors">
                   <ChevronRight className="h-4 w-4 mr-1" />
                   Security Architecture
                 </a>
@@ -154,17 +154,17 @@ const Footer: React.FC = () => {
             <div className="mt-4 md:mt-0">
               <ul className="flex space-x-6">
                 <li>
-                  <a href="#" className="text-gray-400 hover:text-blue-400 transition-colors">
+                  <a href="https://Support.github.io/" className="text-gray-400 hover:text-blue-400 transition-colors">
                     Privacy Policy
                   </a>
                 </li>
                 <li>
-                  <a href="#" className="text-gray-400 hover:text-blue-400 transition-colors">
+                  <a href="https://Support.github.io/" className="text-gray-400 hover:text-blue-400 transition-colors">
                     Terms of Service
                   </a>
                 </li>
                 <li>
-                  <a href="#" className="text-gray-400 hover:text-blue-400 transition-colors">
+                  <a href="https://Support.github.io/" className="text-gray-400 hover:text-blue-400 transition-colors">
                     Cookie Policy
                   </a>
                 </li>
