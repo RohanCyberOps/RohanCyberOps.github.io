@@ -74,7 +74,7 @@ const Hero: React.FC = () => {
         </h1>
         
         <p className="mt-6 text-xl sm:text-2xl max-w-3xl mx-auto text-gray-300 typewriter-text">
-          Cybersecurity Expert | Ethical Hacker | IT Consultant
+          Cybersecurity | Ethical Hacker | IT Consultant
         </p>
         
         <div className="mt-10 flex flex-col sm:flex-row justify-center gap-4">

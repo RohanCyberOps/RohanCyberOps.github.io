@@ -30,7 +30,7 @@ const Footer: React.FC = () => {
                   <path fillRule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z" clipRule="evenodd" />
                 </svg>
               </a>
-              <a  href="https://discord.gg/JTT74wQD" className="text-gray-400 hover:text-blue-400 transition-colors">
+              <a  href="https://discord.gg/YsYwZwEZ" className="text-gray-400 hover:text-blue-400 transition-colors">
                 <svg className="h-6 w-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M20.317 4.369A19.791 19.791 0 0 0 15.633 3c-.316.563-.599 1.144-.844 1.737a18.993 18.993 0 0 0-5.578 0 13.748 13.748 0 0 0-.844-1.737 19.791 19.791 0 0 0-4.684 1.369C2.841 8.212 2 12.013 2 15.785a19.919 19.919 0 0 0 6.086 4.229c.5-.687.947-1.414 1.335-2.173a12.5 12.5 0 0 1-1.999-.96c.167-.12.329-.25.482-.388 3.792 1.716 7.883 1.716 11.674 0 .154.138.316.268.482.388a12.5 12.5 0 0 1-1.999.96c.388.76.835 1.486 1.335 2.173A19.919 19.919 0 0 0 22 15.785c0-3.772-.841-7.573-1.683-11.416ZM9.069 14.323c-1.185 0-2.153-1.086-2.153-2.42 0-1.333.94-2.43 2.153-2.43 1.224 0 2.173 1.097 2.153 2.43-.02 1.334-.929 2.42-2.153 2.42Zm5.862 0c-1.185 0-2.153-1.086-2.153-2.42 0-1.333.94-2.43 2.153-2.43 1.224 0 2.173 1.097 2.153 2.43-.02 1.334-.929 2.42-2.153 2.42Z"/>
                </svg>
 
@@ -78,31 +78,31 @@ const Footer: React.FC = () => {
             <h3 className="text-lg font-semibold text-white mb-4">Services</h3>
             <ul className="space-y-2">
               <li>
-                <a href="https://Support.github.io/" className="flex items-center text-gray-400 hover:text-blue-400 transition-colors">
+                <a href="#Services" className="flex items-center text-gray-400 hover:text-blue-400 transition-colors">
                   <ChevronRight className="h-4 w-4 mr-1" />
                   Penetration Testing
                 </a>
               </li>
               <li>
-                <a href="https://Support.github.io/" className="flex items-center text-gray-400 hover:text-blue-400 transition-colors">
+                <a href="#Services" className="flex items-center text-gray-400 hover:text-blue-400 transition-colors">
                   <ChevronRight className="h-4 w-4 mr-1" />
                   Security Audits
                 </a>
               </li>
               <li>
-                <a href="https://Support.github.io/" className="flex items-center text-gray-400 hover:text-blue-400 transition-colors">
+                <a href="#Services" className="flex items-center text-gray-400 hover:text-blue-400 transition-colors">
                   <ChevronRight className="h-4 w-4 mr-1" />
                   Incident Response
                 </a>
               </li>
               <li>
-                <a href="https://Support.github.io/" className="flex items-center text-gray-400 hover:text-blue-400 transition-colors">
+                <a href="#Services" className="flex items-center text-gray-400 hover:text-blue-400 transition-colors">
                   <ChevronRight className="h-4 w-4 mr-1" />
                   Security Training
                 </a>
               </li>
               <li>
-                <a href="https://Support.github.io/" className="flex items-center text-gray-400 hover:text-blue-400 transition-colors">
+                <a href="#Services" className="flex items-center text-gray-400 hover:text-blue-400 transition-colors">
                   <ChevronRight className="h-4 w-4 mr-1" />
                   Security Architecture
                 </a>
@@ -154,17 +154,17 @@ const Footer: React.FC = () => {
             <div className="mt-4 md:mt-0">
               <ul className="flex space-x-6">
                 <li>
-                  <a href="https://Support.github.io/" className="text-gray-400 hover:text-blue-400 transition-colors">
+                  <a href="#Services" className="text-gray-400 hover:text-blue-400 transition-colors">
                     Privacy Policy
                   </a>
                 </li>
                 <li>
-                  <a href="https://Support.github.io/" className="text-gray-400 hover:text-blue-400 transition-colors">
+                  <a href="#Services" className="text-gray-400 hover:text-blue-400 transition-colors">
                     Terms of Service
                   </a>
                 </li>
                 <li>
-                  <a href="https://Support.github.io/" className="text-gray-400 hover:text-blue-400 transition-colors">
+                  <a href="#Services" className="text-gray-400 hover:text-blue-400 transition-colors">
                     Cookie Policy
                   </a>
                 </li>

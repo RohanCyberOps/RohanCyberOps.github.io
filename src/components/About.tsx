@@ -18,10 +18,10 @@ const About: React.FC = () => {
               Rohan Naagar
             </h3>
             <p className="text-lg text-gray-700 dark:text-gray-300 mb-6">
-              I'm a passionate cybersecurity professional with over 8 years of experience in protecting digital assets and infrastructure from evolving threats. My expertise spans across penetration testing, vulnerability assessment, security architecture, and incident response.
+              I'm a passionate cybersecurity professional with over many years of experience in protecting digital assets and infrastructure from evolving threats. My expertise spans across penetration testing, vulnerability assessment, security architecture, and incident response.
             </p>
             <p className="text-lg text-gray-700 dark:text-gray-300 mb-6">
-              Having worked with Fortune 500 companies and government agencies, I've developed a deep understanding of how to secure complex systems against sophisticated attacks while maintaining operational efficiency.
+              Having worked with Fortune many companies and government agencies, I've developed a deep understanding of how to secure complex systems against sophisticated attacks while maintaining operational efficiency.
             </p>
             <p className="text-lg text-gray-700 dark:text-gray-300 mb-8">
               My approach combines technical expertise with strategic thinking, allowing me to not only identify vulnerabilities but also implement comprehensive security solutions that align with business objectives.
