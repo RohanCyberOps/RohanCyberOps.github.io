@@ -29,6 +29,7 @@ import Graph from './components/Graph';
 import Contact from './components/Contact';
 import Footer from './components/Footer';
 import Navbar from './components/Navbar';
+import Assignments from './components/Assignments';
 
 function App() {
   const [darkMode, setDarkMode] = useState(() => {
@@ -85,6 +86,9 @@ function App() {
           <Projects />
           <Blog />
           <Contact />
+          <Assignments />
+
+            {/* Additional sections can be added here */}
         </main>
 
         <Footer />

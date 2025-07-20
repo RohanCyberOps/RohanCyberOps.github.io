@@ -98,3 +98,147 @@ body {
 html {
   scroll-behavior: smooth;
 }
+/* Assignments Page Styles */
+.assignments-page {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem 1rem;
+}
+
+.assignment-section {
+  margin-bottom: 3rem;
+}
+
+.assignment-section h2 {
+  color: var(--secondary-color);
+  border-bottom: 2px solid var(--primary-color);
+  padding-bottom: 0.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.assignments-list, .case-studies-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+  gap: 1.5rem;
+}
+
+.assignment-card, .case-study-card {
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.assignment-card:hover, .case-study-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+.assignment-header {
+  background: var(--secondary-color);
+  color: white;
+  padding: 1rem;
+}
+
+.assignment-header h3 {
+  margin: 0;
+  font-size: 1.1rem;
+}
+
+.assignment-content {
+  padding: 1rem;
+}
+
+.code-block {
+  margin-bottom: 1rem;
+}
+
+.code-block h4 {
+  color: var(--primary-color);
+  margin-bottom: 0.5rem;
+  font-size: 0.9rem;
+}
+
+pre {
+  background: #f5f5f5;
+  padding: 1rem;
+  border-radius: 4px;
+  overflow-x: auto;
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 0.85rem;
+  line-height: 1.4;
+  margin: 0;
+}
+
+.case-study-card {
+  padding: 1.5rem;
+}
+
+.case-study-card h3 {
+  color: var(--secondary-color);
+  margin-bottom: 1rem;
+}
+
+.description {
+  color: #555;
+  margin-bottom: 1rem;
+  line-height: 1.6;
+}
+
+.tools-used h4 {
+  color: var(--primary-color);
+  margin-bottom: 0.5rem;
+  font-size: 0.9rem;
+}
+
+.tools-used ul {
+  list-style-type: disc;
+  padding-left: 1.5rem;
+  color: #555;
+}
+
+.project-info {
+  margin-top: 3rem;
+  background: white;
+  padding: 2rem;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.project-info h2 {
+  color: var(--secondary-color);
+  margin-bottom: 1.5rem;
+  text-align: center;
+}
+
+.info-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 1.5rem;
+}
+
+.info-card {
+  background: #f9f9f9;
+  padding: 1.5rem;
+  border-radius: 8px;
+  border-left: 4px solid var(--primary-color);
+}
+
+.info-card h3 {
+  color: var(--secondary-color);
+  margin-bottom: 1rem;
+  font-size: 1.1rem;
+}
+
+.info-card p {
+  margin: 0.5rem 0;
+  color: #555;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .assignments-list, .case-studies-list, .info-grid {
+    grid-template-columns: 1fr;
+  }
+}
