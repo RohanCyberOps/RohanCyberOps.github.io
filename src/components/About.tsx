@@ -53,7 +53,7 @@ const About: React.FC = () => {
                   Scan QR code to view your profile
                 </p>
                 <div className="flex justify-center">
-                  <img src="assets/Screenshot 2025-07-07 221545.png" alt="Profile QR Code" className="w-32 h-32" />
+                  <img src="https://github.com/RohanCyberOps/RohanCyberOps.github.io/blob/main/assets/Screenshot%202025-07-07%20221545.png?raw=true" alt="Profile QR Code" className="w-32 h-32" />
                   <div className="w-32 h-32 bg-gray-200 dark:bg-gray-600 flex items-center justify-center rounded">
                     <span className="text-gray-500 dark:text-gray-400 text-xs">QR Code</span>
                   </div>
@@ -64,7 +64,7 @@ const About: React.FC = () => {
             <div className="order-1 lg:order-2 relative">
               <div className="aspect-w-3 aspect-h-4 rounded-lg overflow-hidden shadow-xl border-2 border-blue-500 dark:border-blue-400 transform hover:scale-[1.02] transition-transform duration-300">
                 <img
-                    src="assets/WhatsApp Image 2025-07-20 at 20.45.55_b5a2a338.jpg"
+                    src="https://github.com/RohanCyberOps/RohanCyberOps.github.io/blob/main/assets/WhatsApp%20Image%202025-07-20%20at%2020.45.55_b5a2a338.jpg?raw=true"
                     alt="Cybersecurity Professional"
                     className="object-cover w-full h-full"
                 />

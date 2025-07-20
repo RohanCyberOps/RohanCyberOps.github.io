@@ -41,7 +41,7 @@ const Assignments: React.FC = () => {
             dueDate: "2025-07-08",
             codeExample: "CREATE DATABASE student;\nUSE student;\nCREATE TABLE students (\n  id INT PRIMARY KEY,\n  name VARCHAR(100),\n  class INT,\n  percentage FLOAT\n);",
             output: "Query OK, 1 row affected (0.02 sec)",
-            pdfUrl: "assets/IT802.pdf"
+            pdfUrl: "https://github.com/RohanCyberOps/RohanCyberOps.github.io/blob/main/assets/IT802.pdf"
         },
         // ... other assignments
     ];
