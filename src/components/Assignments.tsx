@@ -1,411 +1,468 @@
 import React, { useState } from 'react';
-import { Code, Database, Server, Cpu, BookOpen, ChevronRight, FileText, Download, X, Info } from 'lucide-react';
-import { Document, Page, pdfjs } from 'react-pdf';
-import 'react-pdf/dist/esm/Page/AnnotationLayer.css';
-import 'react-pdf/dist/esm/Page/TextLayer.css';
-
-// Configure PDF worker
-pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.min.js`;
-
-interface Assignment {
-    id: number;
-    title: string;
-    description: string;
-    category: string;
-    completed: boolean;
-    difficulty: 'Easy' | 'Medium' | 'Advanced';
-    dateAssigned: string;
-    dueDate: string;
-    codeExample?: string;
-    output?: string;
-    pdfUrl?: string;
-}
+import { Mail, MessageSquare, BookOpen, CheckCircle, XCircle, Loader, Info, Upload, FileText, FileInput, X } from 'lucide-react';
 
 const Assignments: React.FC = () => {
-    const [selectedPdf, setSelectedPdf] = useState<string | null>(null);
-    const [numPages, setNumPages] = useState<number | null>(null);
-    const [pageNumber, setPageNumber] = useState(1);
-    const [pdfLoading, setPdfLoading] = useState(false);
-    const [pdfError, setPdfError] = useState<string | null>(null);
-    const [showOverview, setShowOverview] = useState(true);
+    // Form states
+    const [formData, setFormData] = useState({
+        name: '',
+        email: '',
+        subject: '',
+        message: '',
+        assignmentId: '',
+        urgency: 'normal'
+    });
 
-    const assignments: Assignment[] = [
-        {
-            id: 1,
-            title: "Create a Student Database",
-            description: "Implement a MySQL database for student records with proper schema design.",
-            category: "SQL Queries",
-            completed: true,
-            difficulty: 'Easy',
-            dateAssigned: "2025-07-01",
-            dueDate: "2025-07-08",
-            codeExample: "CREATE DATABASE student;\nUSE student;\nCREATE TABLE students (\n  id INT PRIMARY KEY,\n  name VARCHAR(100),\n  class INT,\n  percentage FLOAT\n);",
-            output: "Query OK, 1 row affected (0.02 sec)",
-            pdfUrl: "https://github.com/RohanCyberOps/RohanCyberOps.github.io/blob/main/assets/IT802.pdf"
-        },
-        // ... other assignments
+    // Submission states
+    const [submitted, setSubmitted] = useState(false);
+    const [error, setError] = useState('');
+    const [isLoading, setIsLoading] = useState(false);
+
+    // File upload states
+    const [files, setFiles] = useState<File[]>([]);
+    const [uploadProgress, setUploadProgress] = useState(0);
+    const [submissionType, setSubmissionType] = useState<'enquiry' | 'submission'>('enquiry');
+
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+        const { name, value } = e.target;
+        setFormData(prev => ({
+            ...prev,
+            [name]: value
+        }));
+    };
+
+    const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        if (e.target.files) {
+            const newFiles = Array.from(e.target.files);
+            setFiles(prev => [...prev, ...newFiles]);
+        }
+    };
+
+    const removeFile = (index: number) => {
+        setFiles(prev => prev.filter((_, i) => i !== index));
+    };
+
+    const handleSubmit = async (e: React.FormEvent) => {
+        e.preventDefault();
+        setIsLoading(true);
+        setError('');
+
+        try {
+            if (submissionType === 'submission' && files.length === 0) {
+                throw new Error('Please attach at least one file for submission');
+            }
+
+            const formPayload = new FormData();
+
+            // Add form data
+            Object.entries(formData).forEach(([key, value]) => {
+                formPayload.append(key, value);
+            });
+
+            // Add files if submitting
+            if (submissionType === 'submission') {
+                files.forEach(file => {
+                    formPayload.append('files', file);
+                });
+            }
+
+            // Add submission type
+            formPayload.append('type', submissionType);
+
+            const response = await fetch('https://formspree.io/f/xgvznqyr', {
+                method: 'POST',
+                body: formPayload,
+                headers: {
+                    Accept: 'application/json'
+                }
+            });
+
+            if (response.ok) {
+                setSubmitted(true);
+                setFormData({
+                    name: '',
+                    email: '',
+                    subject: '',
+                    message: '',
+                    assignmentId: '',
+                    urgency: 'normal'
+                });
+                setFiles([]);
+            } else {
+                throw new Error('Submission failed');
+            }
+        } catch (err) {
+            setError(err instanceof Error ? err.message : 'There was an error submitting your request. Please try again later.');
+        } finally {
+            setIsLoading(false);
+        }
+    };
+
+    const sampleAssignments = [
+        { id: 'IT802-001', title: 'Student Database Implementation', submissionDue: '2025-08-15' },
+        { id: 'IT802-002', title: 'Library Management System', submissionDue: '2025-08-22' },
+        { id: 'IT802-003', title: 'E-commerce Website', submissionDue: '2025-08-29' },
+        { id: 'IT802-004', title: 'Inventory Management', submissionDue: '2025-09-05' }
     ];
 
-    const categories = [
-        { name: "SQL Queries", icon: <Database className="h-5 w-5" />, count: 15 },
-        { name: "Java Programs", icon: <Code className="h-5 w-5" />, count: 15 },
-        { name: "Web Applications", icon: <Server className="h-5 w-5" />, count: 3 }
-    ];
-
-    const onDocumentLoadSuccess = ({ numPages }: { numPages: number }) => {
-        setNumPages(numPages);
-        setPdfLoading(false);
-        setPdfError(null);
-    };
-
-    const onDocumentLoadError = (error: Error) => {
-        console.error('PDF load error:', error);
-        setPdfError('Failed to load PDF. Please try again later.');
-        setPdfLoading(false);
-    };
-
-    const openPdfViewer = (pdfUrl: string) => {
-        setSelectedPdf(pdfUrl);
-        setPdfLoading(true);
-        setPdfError(null);
-        setPageNumber(1);
-    };
-
-    const closePdfViewer = () => {
-        setSelectedPdf(null);
-        setPdfError(null);
-    };
-
-    const changePage = (offset: number) => {
-        setPageNumber(prev => Math.min(Math.max(prev + offset, 1), numPages || 1));
+    const formatDate = (dateString: string) => {
+        const options: Intl.DateTimeFormatOptions = { year: 'numeric', month: 'long', day: 'numeric' };
+        return new Date(dateString).toLocaleDateString(undefined, options);
     };
 
     return (
-        <section className="py-12 bg-white dark:bg-gray-900 relative">
-            {/* PDF Viewer Modal */}
-            {selectedPdf && (
-                <div className="fixed inset-0 bg-black bg-opacity-75 z-50 flex items-center justify-center p-4">
-                    <div className="bg-white dark:bg-gray-800 rounded-lg shadow-xl max-w-6xl w-full max-h-screen h-full flex flex-col">
-                        <div className="flex justify-between items-center p-4 border-b border-gray-200 dark:border-gray-700">
-                            <h3 className="text-lg font-medium text-gray-900 dark:text-white">
-                                PDF Viewer
-                            </h3>
-                            <button
-                                onClick={closePdfViewer}
-                                className="text-gray-400 hover:text-gray-500 dark:hover:text-gray-300"
-                                aria-label="Close PDF viewer"
-                            >
-                                <X className="h-6 w-6" />
-                            </button>
-                        </div>
+        <section id="contact" className="relative py-20 overflow-hidden">
+            {/* Background elements */}
+            <div className="absolute inset-0 z-0 pointer-events-none">
+                <div className="absolute inset-0 bg-gradient-to-r from-blue-500/10 to-purple-500/10 dark:from-blue-900/20 dark:to-purple-900/20"></div>
+                <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1550751827-4bd374c3f58b?q=80&w=2070&auto=format&fit=crop')] opacity-10 dark:opacity-20"></div>
+            </div>
 
-                        <div className="flex-1 overflow-auto p-4 flex items-center justify-center">
-                            {pdfLoading ? (
-                                <div className="flex items-center justify-center h-full">
-                                    <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500"></div>
-                                </div>
-                            ) : pdfError ? (
-                                <div className="text-center p-8">
-                                    <div className="text-red-500 mb-4">{pdfError}</div>
-                                    <button
-                                        onClick={() => openPdfViewer(selectedPdf)}
-                                        className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
-                                    >
-                                        Retry
-                                    </button>
-                                </div>
-                            ) : (
-                                <Document
-                                    file={selectedPdf}
-                                    onLoadSuccess={onDocumentLoadSuccess}
-                                    onLoadError={onDocumentLoadError}
-                                    loading={
-                                        <div className="flex items-center justify-center h-full">
-                                            <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500"></div>
-                                        </div>
-                                    }
-                                    error={
-                                        <div className="text-red-500 p-4">
-                                            Failed to load PDF document.
-                                        </div>
-                                    }
-                                >
-                                    <Page
-                                        pageNumber={pageNumber}
-                                        width={Math.min(800, window.innerWidth - 40)}
-                                        renderTextLayer={false}
-                                        renderAnnotationLayer={false}
-                                        loading={
-                                            <div className="flex items-center justify-center h-full">
-                                                <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500"></div>
-                                            </div>
-                                        }
-                                    />
-                                </Document>
-                            )}
-                        </div>
-
-                        <div className="p-4 border-t border-gray-200 dark:border-gray-700 flex items-center justify-between">
-                            <div className="flex items-center space-x-4">
-                                <button
-                                    onClick={() => changePage(-1)}
-                                    disabled={pageNumber <= 1}
-                                    className="px-3 py-1 rounded bg-gray-200 dark:bg-gray-700 disabled:opacity-50"
-                                    aria-label="Previous page"
-                                >
-                                    Previous
-                                </button>
-                                <span className="text-gray-700 dark:text-gray-300">
-                  Page {pageNumber} of {numPages || '--'}
-                </span>
-                                <button
-                                    onClick={() => changePage(1)}
-                                    disabled={pageNumber >= (numPages || 1)}
-                                    className="px-3 py-1 rounded bg-gray-200 dark:bg-gray-700 disabled:opacity-50"
-                                    aria-label="Next page"
-                                >
-                                    Next
-                                </button>
-                            </div>
-
-                            <a
-                                href={selectedPdf}
-                                download
-                                className="flex items-center text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300"
-                                aria-label="Download PDF"
-                            >
-                                <Download className="h-5 w-5 mr-1" />
-                                Download PDF
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            )}
-
-            <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
                 <div className="text-center mb-12">
                     <h1 className="text-4xl font-bold mb-2">
-                        <span className="text-gray-900 dark:text-white">IT802</span>{" "}
-                        <span className="text-gray-900 dark:text-blue-400">Assignments</span>
+                        <span className="text-gray-900 dark:text-white">Assignment</span>{' '}
+                        <span className="text-blue-600 dark:text-blue-400">Submission Portal</span>
                     </h1>
                     <div className="mt-2 h-1 w-20 bg-blue-500 mx-auto"></div>
                     <p className="text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
-                        Comprehensive study of SQL queries, Java programs, and web-based applications for Class XII
+                        Submit your assignments or ask questions about requirements and deadlines
                     </p>
                 </div>
 
-                {/* Overview Section */}
-                {showOverview && (
-                    <div className="bg-blue-50 dark:bg-blue-900/20 rounded-xl p-6 mb-8 relative">
+                {/* Toggle between Enquiry and Submission */}
+                <div className="flex justify-center mb-8">
+                    <div className="inline-flex rounded-md shadow-sm">
                         <button
-                            onClick={() => setShowOverview(false)}
-                            className="absolute top-4 right-4 text-blue-500 dark:text-blue-300 hover:text-blue-700 dark:hover:text-blue-100"
-                            aria-label="Close overview"
+                            onClick={() => setSubmissionType('enquiry')}
+                            className={`px-4 py-2 text-sm font-medium rounded-l-lg ${submissionType === 'enquiry' ? 'bg-blue-600 text-white' : 'bg-white/80 dark:bg-gray-700/80 text-gray-700 dark:text-gray-300 hover:bg-white/90 dark:hover:bg-gray-600/90'}`}
                         >
-                            <X className="h-5 w-5" />
+                            Make an Enquiry
                         </button>
-                        <div className="flex items-start">
-                            <Info className="h-6 w-6 text-blue-500 dark:text-blue-300 mt-1 mr-3 flex-shrink-0" />
-                            <div>
-                                <h2 className="text-xl font-bold text-blue-800 dark:text-blue-100 mb-3">
-                                    Project Overview
-                                </h2>
-                                <p className="text-blue-700 dark:text-blue-200 mb-2">
-                                    This project covers practical implementations of:
-                                </p>
-                                <ul className="list-disc pl-5 text-blue-700 dark:text-blue-200 space-y-1">
-                                    <li>15 SQL queries with MySQL commands</li>
-                                    <li>15 Java console-based programs</li>
-                                    <li>3 Web-based application case studies</li>
-                                </ul>
-                                <p className="text-blue-700 dark:text-blue-200 mt-3">
-                                    Submitted by: <span className="font-medium">Rohan Naagar</span> (Class XII - Non-Medical)
-                                </p>
-                            </div>
-                        </div>
+                        <button
+                            onClick={() => setSubmissionType('submission')}
+                            className={`px-4 py-2 text-sm font-medium rounded-r-lg ${submissionType === 'submission' ? 'bg-blue-600 text-white' : 'bg-white/80 dark:bg-gray-700/80 text-gray-700 dark:text-gray-300 hover:bg-white/90 dark:hover:bg-gray-600/90'}`}
+                        >
+                            Submit Assignment
+                        </button>
                     </div>
-                )}
+                </div>
 
-                <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-                    {/* Main Content */}
-                    <div className="lg:col-span-2 space-y-8">
-                        {/* Categories Summary */}
-                        <div className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-md">
-                            <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-6">Assignment Categories</h2>
-                            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                                {categories.map((category) => (
-                                    <div key={category.name} className="bg-gray-50 dark:bg-gray-700 p-4 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-600 transition-colors">
-                                        <div className="flex items-center mb-2">
-                                            {category.icon}
-                                            <span className="ml-2 font-medium text-gray-900 dark:text-white">{category.name}</span>
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                    {/* Main Form */}
+                    <div className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm p-6 rounded-xl shadow-md border border-white/20 dark:border-gray-700/50">
+                        <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-6 flex items-center">
+                            {submissionType === 'enquiry' ? (
+                                <MessageSquare className="h-6 w-6 mr-2 text-blue-500" />
+                            ) : (
+                                <Upload className="h-6 w-6 mr-2 text-blue-500" />
+                            )}
+                            {submissionType === 'enquiry' ? 'Send Your Enquiry' : 'Submit Your Assignment'}
+                        </h2>
+
+                        {submitted ? (
+                            <div className="bg-green-50/80 dark:bg-green-900/30 rounded-lg p-6 text-center backdrop-blur-sm">
+                                <CheckCircle className="h-12 w-12 text-green-500 dark:text-green-300 mx-auto mb-4" />
+                                <h3 className="text-xl font-bold text-green-800 dark:text-green-100 mb-2">
+                                    {submissionType === 'enquiry' ? 'Enquiry Submitted!' : 'Assignment Submitted!'}
+                                </h3>
+                                <p className="text-green-700 dark:text-green-200">
+                                    {submissionType === 'enquiry'
+                                        ? `Thank you for your enquiry. We'll respond to you at ${formData.email} within 24 hours.`
+                                        : 'Your assignment has been successfully submitted. You will receive a confirmation email shortly.'}
+                                </p>
+                                <button
+                                    onClick={() => setSubmitted(false)}
+                                    className="mt-4 px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600"
+                                >
+                                    {submissionType === 'enquiry' ? 'Send Another Enquiry' : 'Submit Another Assignment'}
+                                </button>
+                            </div>
+                        ) : error ? (
+                            <div className="bg-red-50/80 dark:bg-red-900/30 rounded-lg p-6 text-center backdrop-blur-sm">
+                                <XCircle className="h-12 w-12 text-red-500 dark:text-red-300 mx-auto mb-4" />
+                                <h3 className="text-xl font-bold text-red-800 dark:text-red-100 mb-2">
+                                    Submission Error
+                                </h3>
+                                <p className="text-red-700 dark:text-red-200 mb-4">
+                                    {error}
+                                </p>
+                                <button
+                                    onClick={() => setError('')}
+                                    className="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600"
+                                >
+                                    Try Again
+                                </button>
+                            </div>
+                        ) : (
+                            <form onSubmit={handleSubmit} className="space-y-6">
+                                <div>
+                                    <label htmlFor="name" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                                        Your Name
+                                    </label>
+                                    <input
+                                        type="text"
+                                        id="name"
+                                        name="name"
+                                        value={formData.name}
+                                        onChange={handleChange}
+                                        required
+                                        className="w-full px-4 py-2 border border-gray-300/50 dark:border-gray-600/50 rounded-md focus:ring-blue-500 focus:border-blue-500 bg-white/90 dark:bg-gray-700/90 dark:text-white"
+                                    />
+                                </div>
+
+                                <div>
+                                    <label htmlFor="email" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                                        Email Address
+                                    </label>
+                                    <input
+                                        type="email"
+                                        id="email"
+                                        name="email"
+                                        value={formData.email}
+                                        onChange={handleChange}
+                                        required
+                                        className="w-full px-4 py-2 border border-gray-300/50 dark:border-gray-600/50 rounded-md focus:ring-blue-500 focus:border-blue-500 bg-white/90 dark:bg-gray-700/90 dark:text-white"
+                                    />
+                                </div>
+
+                                <div>
+                                    <label htmlFor="assignmentId" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                                        Assignment
+                                    </label>
+                                    <select
+                                        id="assignmentId"
+                                        name="assignmentId"
+                                        value={formData.assignmentId}
+                                        onChange={handleChange}
+                                        required
+                                        className="w-full px-4 py-2 border border-gray-300/50 dark:border-gray-600/50 rounded-md focus:ring-blue-500 focus:border-blue-500 bg-white/90 dark:bg-gray-700/90 dark:text-white"
+                                    >
+                                        <option value="">Select an assignment...</option>
+                                        {sampleAssignments.map(assignment => (
+                                            <option key={assignment.id} value={assignment.id}>
+                                                {assignment.id} - {assignment.title} (Due: {formatDate(assignment.submissionDue)})
+                                            </option>
+                                        ))}
+                                    </select>
+                                </div>
+
+                                {submissionType === 'enquiry' && (
+                                    <>
+                                        <div>
+                                            <label htmlFor="subject" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                                                Subject
+                                            </label>
+                                            <input
+                                                type="text"
+                                                id="subject"
+                                                name="subject"
+                                                value={formData.subject}
+                                                onChange={handleChange}
+                                                required
+                                                className="w-full px-4 py-2 border border-gray-300/50 dark:border-gray-600/50 rounded-md focus:ring-blue-500 focus:border-blue-500 bg-white/90 dark:bg-gray-700/90 dark:text-white"
+                                            />
                                         </div>
-                                        <p className="text-sm text-gray-600 dark:text-gray-300">
-                                            {category.count} assignments
-                                        </p>
+
+                                        <div>
+                                            <label htmlFor="urgency" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                                                Urgency
+                                            </label>
+                                            <div className="grid grid-cols-3 gap-2">
+                                                {[
+                                                    { value: 'low', label: 'Low' },
+                                                    { value: 'normal', label: 'Normal' },
+                                                    { value: 'high', label: 'High' }
+                                                ].map(option => (
+                                                    <label key={option.value} className="flex items-center">
+                                                        <input
+                                                            type="radio"
+                                                            name="urgency"
+                                                            value={option.value}
+                                                            checked={formData.urgency === option.value}
+                                                            onChange={handleChange}
+                                                            className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 dark:border-gray-600 dark:bg-gray-700"
+                                                        />
+                                                        <span className="ml-2 text-sm text-gray-700 dark:text-gray-300">{option.label}</span>
+                                                    </label>
+                                                ))}
+                                            </div>
+                                        </div>
+                                    </>
+                                )}
+
+                                <div>
+                                    <label htmlFor="message" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                                        {submissionType === 'enquiry' ? 'Your Message' : 'Additional Notes (Optional)'}
+                                    </label>
+                                    <textarea
+                                        id="message"
+                                        name="message"
+                                        rows={4}
+                                        value={formData.message}
+                                        onChange={handleChange}
+                                        required={submissionType === 'enquiry'}
+                                        className="w-full px-4 py-2 border border-gray-300/50 dark:border-gray-600/50 rounded-md focus:ring-blue-500 focus:border-blue-500 bg-white/90 dark:bg-gray-700/90 dark:text-white"
+                                    ></textarea>
+                                </div>
+
+                                {submissionType === 'submission' && (
+                                    <div>
+                                        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                                            Upload Files
+                                        </label>
+                                        <div className="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-gray-300/50 dark:border-gray-600/50 border-dashed rounded-md bg-white/50 dark:bg-gray-700/50">
+                                            <div className="space-y-1 text-center">
+                                                <div className="flex text-sm text-gray-600 dark:text-gray-300">
+                                                    <label
+                                                        htmlFor="file-upload"
+                                                        className="relative cursor-pointer rounded-md font-medium text-blue-600 dark:text-blue-400 hover:text-blue-500 dark:hover:text-blue-300 focus-within:outline-none"
+                                                    >
+                                                        <span>Upload files</span>
+                                                        <input
+                                                            id="file-upload"
+                                                            name="file-upload"
+                                                            type="file"
+                                                            multiple
+                                                            onChange={handleFileChange}
+                                                            className="sr-only"
+                                                        />
+                                                    </label>
+                                                    <p className="pl-1">or drag and drop</p>
+                                                </div>
+                                                <p className="text-xs text-gray-500 dark:text-gray-400">
+                                                    PDF, DOC, ZIP up to 10MB
+                                                </p>
+                                            </div>
+                                        </div>
+
+                                        {/* File preview */}
+                                        {files.length > 0 && (
+                                            <div className="mt-4 space-y-2">
+                                                <h4 className="text-sm font-medium text-gray-700 dark:text-gray-300">
+                                                    Selected Files:
+                                                </h4>
+                                                <ul className="divide-y divide-gray-200/50 dark:divide-gray-700/50">
+                                                    {files.map((file, index) => (
+                                                        <li key={index} className="py-2 flex items-center justify-between">
+                                                            <div className="flex items-center">
+                                                                <FileText className="h-5 w-5 text-gray-400 mr-2" />
+                                                                <span className="text-sm text-gray-700 dark:text-gray-300 truncate max-w-xs">
+                                                                    {file.name}
+                                                                </span>
+                                                            </div>
+                                                            <button
+                                                                type="button"
+                                                                onClick={() => removeFile(index)}
+                                                                className="text-red-500 hover:text-red-700 dark:hover:text-red-400"
+                                                            >
+                                                                <X className="h-5 w-5" />
+                                                            </button>
+                                                        </li>
+                                                    ))}
+                                                </ul>
+                                            </div>
+                                        )}
+                                    </div>
+                                )}
+
+                                <div>
+                                    <button
+                                        type="submit"
+                                        disabled={isLoading}
+                                        className="w-full flex justify-center items-center px-6 py-3 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:opacity-50"
+                                    >
+                                        {isLoading ? (
+                                            <>
+                                                <Loader className="animate-spin h-5 w-5 mr-2" />
+                                                {submissionType === 'enquiry' ? 'Sending...' : 'Submitting...'}
+                                            </>
+                                        ) : (
+                                            <>
+                                                {submissionType === 'enquiry' ? (
+                                                    <Mail className="h-5 w-5 mr-2" />
+                                                ) : (
+                                                    <Upload className="h-5 w-5 mr-2" />
+                                                )}
+                                                {submissionType === 'enquiry' ? 'Send Enquiry' : 'Submit Assignment'}
+                                            </>
+                                        )}
+                                    </button>
+                                </div>
+                            </form>
+                        )}
+                    </div>
+
+                    {/* Information Sidebar */}
+                    <div className="space-y-6">
+                        {/* Assignment Details */}
+                        <div className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm p-6 rounded-xl shadow-md border border-white/20 dark:border-gray-700/50">
+                            <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-6 flex items-center">
+                                <BookOpen className="h-6 w-6 mr-2 text-blue-500" />
+                                Assignment Details
+                            </h2>
+
+                            <div className="space-y-4">
+                                {sampleAssignments.map(assignment => (
+                                    <div
+                                        key={assignment.id}
+                                        className={`p-4 rounded-lg border ${formData.assignmentId === assignment.id ? 'border-blue-500 bg-blue-50/50 dark:bg-blue-900/20' : 'border-gray-200/50 dark:border-gray-700/50 bg-white/50 dark:bg-gray-700/50'}`}
+                                    >
+                                        <h3 className="font-medium text-gray-900 dark:text-white">
+                                            {assignment.id}: {assignment.title}
+                                        </h3>
+                                        <div className="mt-2 grid grid-cols-2 gap-2 text-sm">
+                                            <div>
+                                                <p className="text-gray-500 dark:text-gray-400">Due Date</p>
+                                                <p className="text-gray-900 dark:text-white">{formatDate(assignment.submissionDue)}</p>
+                                            </div>
+                                            <div>
+                                                <p className="text-gray-500 dark:text-gray-400">Status</p>
+                                                <p className="text-gray-900 dark:text-white">
+                                                    {new Date(assignment.submissionDue) > new Date() ? 'Open' : 'Closed'}
+                                                </p>
+                                            </div>
+                                        </div>
                                     </div>
                                 ))}
                             </div>
                         </div>
 
-                        {/* Assignments List */}
-                        <div className="space-y-6">
-                            {assignments.map((assignment) => (
-                                <article key={assignment.id} className="bg-white dark:bg-gray-800 rounded-xl shadow-md overflow-hidden hover:shadow-lg transition-shadow">
-                                    <div className="p-6">
-                                        <div className="flex justify-between items-start">
-                                            <div>
-                                                <div className="flex items-center text-sm text-gray-500 dark:text-gray-400 mb-2">
-                                                    <BookOpen className="h-4 w-4 mr-1" />
-                                                    <span>{assignment.category}</span>
-                                                    <span className="mx-2">•</span>
-                                                    <span>{assignment.difficulty}</span>
-                                                </div>
-                                                <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-3">
-                                                    {assignment.title}
-                                                </h3>
-                                                <p className="text-gray-600 dark:text-gray-300 mb-4">
-                                                    {assignment.description}
-                                                </p>
-                                            </div>
-                                            <span className={`px-3 py-1 rounded-full text-xs font-medium ${
-                                                assignment.completed
-                                                    ? 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200'
-                                                    : 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200'
-                                            }`}>
-                        {assignment.completed ? 'Completed' : 'Pending'}
-                      </span>
-                                        </div>
+                        {/* Submission Guidelines */}
+                        <div className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm p-6 rounded-xl shadow-md border border-white/20 dark:border-gray-700/50">
+                            <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-6 flex items-center">
+                                <Info className="h-6 w-6 mr-2 text-blue-500" />
+                                Submission Guidelines
+                            </h2>
 
-                                        <div className="mt-4 grid grid-cols-2 gap-4 text-sm">
-                                            <div>
-                                                <p className="text-gray-500 dark:text-gray-400">Assigned</p>
-                                                <p className="text-gray-900 dark:text-white">{assignment.dateAssigned}</p>
-                                            </div>
-                                            <div>
-                                                <p className="text-gray-500 dark:text-gray-400">Due Date</p>
-                                                <p className="text-gray-900 dark:text-white">{assignment.dueDate}</p>
-                                            </div>
-                                        </div>
+                            <div className="space-y-4">
+                                <div className="border-b border-gray-200/50 dark:border-gray-700/50 pb-4">
+                                    <h3 className="text-lg font-medium text-gray-900 dark:text-white">
+                                        File Requirements
+                                    </h3>
+                                    <ul className="mt-2 list-disc pl-5 text-gray-600 dark:text-gray-300 space-y-1">
+                                        <li>Maximum file size: 10MB per file</li>
+                                        <li>Accepted formats: PDF, DOC/DOCX, ZIP</li>
+                                        <li>Name files clearly (e.g., IT802-001_YourName.pdf)</li>
+                                    </ul>
+                                </div>
 
-                                        {assignment.codeExample && (
-                                            <div className="mt-6">
-                                                <div className="flex items-center mb-2">
-                                                    <Code className="h-5 w-5 mr-2 text-blue-500" />
-                                                    <h4 className="font-medium text-gray-900 dark:text-white">Code Example</h4>
-                                                </div>
-                                                <pre className="bg-gray-100 dark:bg-gray-700 p-4 rounded-md overflow-x-auto text-sm">
-                          {assignment.codeExample}
-                        </pre>
-                                            </div>
-                                        )}
-
-                                        {assignment.output && (
-                                            <div className="mt-4">
-                                                <div className="flex items-center mb-2">
-                                                    <Cpu className="h-5 w-5 mr-2 text-green-500" />
-                                                    <h4 className="font-medium text-gray-900 dark:text-white">Expected Output</h4>
-                                                </div>
-                                                <pre className="bg-gray-100 dark:bg-gray-700 p-4 rounded-md overflow-x-auto text-sm">
-                          {assignment.output}
-                        </pre>
-                                            </div>
-                                        )}
-
-                                        {assignment.pdfUrl && (
-                                            <div className="mt-4">
-                                                <button
-                                                    onClick={() => openPdfViewer(assignment.pdfUrl!)}
-                                                    className="flex items-center text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300"
-                                                >
-                                                    <FileText className="h-5 w-5 mr-2" />
-                                                    View Assignment PDF
-                                                </button>
-                                            </div>
-                                        )}
-                                    </div>
-                                </article>
-                            ))}
-                        </div>
-                    </div>
-
-                    {/* Sidebar */}
-                    <div className="lg:col-span-1 space-y-8">
-                        {/* Progress Stats */}
-                        <div className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-md sticky top-6">
-                            <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-6">Assignment Progress</h2>
-
-                            <div className="space-y-6">
-                                <div>
-                                    <h3 className="text-lg font-medium text-gray-900 dark:text-white mb-3">Completion Status</h3>
-                                    <div className="bg-gray-100 dark:bg-gray-700 rounded-full h-4 mb-2">
-                                        <div
-                                            className="bg-blue-500 h-4 rounded-full"
-                                            style={{
-                                                width: `${(assignments.filter(a => a.completed).length / assignments.length) * 100}%`
-                                            }}
-                                        ></div>
-                                    </div>
-                                    <p className="text-sm text-gray-600 dark:text-gray-300">
-                                        {assignments.filter(a => a.completed).length} of {assignments.length} assignments completed
+                                <div className="border-b border-gray-200/50 dark:border-gray-700/50 pb-4">
+                                    <h3 className="text-lg font-medium text-gray-900 dark:text-white">
+                                        Late Submissions
+                                    </h3>
+                                    <p className="mt-2 text-gray-600 dark:text-gray-300">
+                                        Late submissions will be penalized by 10% per day unless prior arrangements have been made.
                                     </p>
                                 </div>
 
                                 <div>
-                                    <h3 className="text-lg font-medium text-gray-900 dark:text-white mb-3">By Difficulty</h3>
-                                    <div className="space-y-3">
-                                        {['Easy', 'Medium', 'Advanced'].map((level) => (
-                                            <div key={level} className="flex items-center justify-between">
-                                                <span className="text-gray-600 dark:text-gray-300">{level}</span>
-                                                <span className="font-medium text-gray-900 dark:text-white">
-                          {assignments.filter(a => a.difficulty === level).length}
-                        </span>
-                                            </div>
-                                        ))}
-                                    </div>
+                                    <h3 className="text-lg font-medium text-gray-900 dark:text-white">
+                                        Confirmation
+                                    </h3>
+                                    <p className="mt-2 text-gray-600 dark:text-gray-300">
+                                        You will receive an email confirmation with submission details. Keep this for your records.
+                                    </p>
                                 </div>
-
-                                <div>
-                                    <h3 className="text-lg font-medium text-gray-900 dark:text-white mb-3">Upcoming Deadlines</h3>
-                                    <div className="space-y-4">
-                                        {assignments
-                                            .filter(a => !a.completed)
-                                            .sort((a, b) => new Date(a.dueDate).getTime() - new Date(b.dueDate).getTime())
-                                            .map((assignment) => (
-                                                <div key={assignment.id} className="flex items-start">
-                                                    <div className="flex-shrink-0 mt-1">
-                                                        <div className="h-3 w-3 rounded-full bg-blue-500"></div>
-                                                    </div>
-                                                    <div className="ml-3">
-                                                        <p className="text-sm font-medium text-gray-900 dark:text-white">
-                                                            {assignment.title}
-                                                        </p>
-                                                        <p className="text-sm text-gray-500 dark:text-gray-400">
-                                                            Due {assignment.dueDate}
-                                                        </p>
-                                                    </div>
-                                                </div>
-                                            ))}
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        {/* Quick Links */}
-                        <div className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-md">
-                            <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-6">Quick Links</h2>
-                            <div className="space-y-3">
-                                <a href="#" className="flex items-center text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300">
-                                    <ChevronRight className="h-5 w-5 mr-2" />
-                                    Project Guidelines
-                                </a>
-                                <a href="#" className="flex items-center text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300">
-                                    <ChevronRight className="h-5 w-5 mr-2" />
-                                    Submission Portal
-                                </a>
-                                <a href="#" className="flex items-center text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300">
-                                    <ChevronRight className="h-5 w-5 mr-2" />
-                                    Reference Materials
-                                </a>
                             </div>
                         </div>
                     </div>

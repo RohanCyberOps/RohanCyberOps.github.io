@@ -3,242 +3,324 @@
 @tailwind utilities;
 
 :root {
-  --primary: #0a84ff;
-  --primary-dark: #0064d6;
-  --secondary: #111827;
-  --accent: #00e5ff;
+    --primary: #0a84ff;
+    --primary-dark: #0064d6;
+    --secondary: #111827;
+    --accent: #00e5ff;
+    --background: #ffffff;
+    --background-dark: #0f172a;
+    --text: #1e293b;
+    --text-dark: #f8fafc;
+}
+
+@media (prefers-color-scheme: dark) {
+    :root {
+        --background: var(--background-dark);
+        --text: var(--text-dark);
+    }
 }
 
 html {
-  scroll-behavior: smooth;
+    scroll-behavior: smooth;
+    scroll-padding-top: 6rem; /* Account for fixed header */
 }
 
 body {
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    background-color: var(--background);
+    color: var(--text);
+    transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 /* Custom animations */
 .glitch-text {
-  position: relative;
-  animation: glitch 5s infinite;
+    position: relative;
+    animation: glitch 5s infinite;
 }
 
 @keyframes glitch {
-  0% {
-    text-shadow: 0.05em 0 0 rgba(255, 0, 0, 0.75), -0.05em -0.025em 0 rgba(0, 255, 0, 0.75), 0.025em 0.05em 0 rgba(0, 0, 255, 0.75);
-  }
-  14% {
-    text-shadow: 0.05em 0 0 rgba(255, 0, 0, 0.75), -0.05em -0.025em 0 rgba(0, 255, 0, 0.75), 0.025em 0.05em 0 rgba(0, 0, 255, 0.75);
-  }
-  15% {
-    text-shadow: -0.05em -0.025em 0 rgba(255, 0, 0, 0.75), 0.025em 0.025em 0 rgba(0, 255, 0, 0.75), -0.05em -0.05em 0 rgba(0, 0, 255, 0.75);
-  }
-  49% {
-    text-shadow: -0.05em -0.025em 0 rgba(255, 0, 0, 0.75), 0.025em 0.025em 0 rgba(0, 255, 0, 0.75), -0.05em -0.05em 0 rgba(0, 0, 255, 0.75);
-  }
-  50% {
-    text-shadow: 0.025em 0.05em 0 rgba(255, 0, 0, 0.75), 0.05em 0 0 rgba(0, 255, 0, 0.75), 0 -0.05em 0 rgba(0, 0, 255, 0.75);
-  }
-  99% {
-    text-shadow: 0.025em 0.05em 0 rgba(255, 0, 0, 0.75), 0.05em 0 0 rgba(0, 255, 0, 0.75), 0 -0.05em 0 rgba(0, 0, 255, 0.75);
-  }
-  100% {
-    text-shadow: -0.025em 0 0 rgba(255, 0, 0, 0.75), -0.025em -0.025em 0 rgba(0, 255, 0, 0.75), -0.025em -0.05em 0 rgba(0, 0, 255, 0.75);
-  }
+    0%, 14% {
+        text-shadow:
+                0.05em 0 0 rgba(255, 0, 0, 0.75),
+                -0.05em -0.025em 0 rgba(0, 255, 0, 0.75),
+                0.025em 0.05em 0 rgba(0, 0, 255, 0.75);
+    }
+    15%, 49% {
+        text-shadow:
+                -0.05em -0.025em 0 rgba(255, 0, 0, 0.75),
+                0.025em 0.025em 0 rgba(0, 255, 0, 0.75),
+                -0.05em -0.05em 0 rgba(0, 0, 255, 0.75);
+    }
+    50%, 99% {
+        text-shadow:
+                0.025em 0.05em 0 rgba(255, 0, 0, 0.75),
+                0.05em 0 0 rgba(0, 255, 0, 0.75),
+                0 -0.05em 0 rgba(0, 0, 255, 0.75);
+    }
+    100% {
+        text-shadow:
+                -0.025em 0 0 rgba(255, 0, 0, 0.75),
+                -0.025em -0.025em 0 rgba(0, 255, 0, 0.75),
+                -0.025em -0.05em 0 rgba(0, 0, 255, 0.75);
+    }
 }
 
 .typewriter-text {
-  overflow: hidden;
-  border-right: 0.15em solid var(--primary);
-  white-space: nowrap;
-  margin: 0 auto;
-  letter-spacing: 0.15em;
-  animation: typing 3.5s steps(40, end), blink-caret 0.75s step-end infinite;
+    overflow: hidden;
+    border-right: 0.15em solid var(--primary);
+    white-space: nowrap;
+    margin: 0 auto;
+    letter-spacing: 0.15em;
+    animation:
+            typing 3.5s steps(40, end),
+            blink-caret 0.75s step-end infinite;
 }
 
 @keyframes typing {
-  from { width: 0 }
-  to { width: 100% }
+    from { width: 0 }
+    to { width: 100% }
 }
 
 @keyframes blink-caret {
-  from, to { border-color: transparent }
-  50% { border-color: var(--primary) }
+    from, to { border-color: transparent }
+    50% { border-color: var(--primary) }
 }
 
 .shadow-glow {
-  box-shadow: 0 0 15px rgba(10, 132, 255, 0.5);
+    box-shadow: 0 0 15px rgba(10, 132, 255, 0.5);
 }
 
 .animate-fadeIn {
-  animation: fadeIn 0.5s ease-in-out;
+    animation: fadeIn 0.5s ease-in-out forwards;
 }
 
 @keyframes fadeIn {
-  from { opacity: 0; transform: translateY(10px); }
-  to { opacity: 1; transform: translateY(0); }
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
 }
 
 /* Custom utilities */
 @layer utilities {
-  .line-clamp-2 {
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-  }
-  
-  .line-clamp-3 {
-    display: -webkit-box;
-    -webkit-line-clamp: 3;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-  }
+    .line-clamp-2 {
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+    }
+
+    .line-clamp-3 {
+        display: -webkit-box;
+        -webkit-line-clamp: 3;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+    }
+
+    .text-balance {
+        text-wrap: balance;
+    }
+
+    .scrollbar-hide {
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+        &::-webkit-scrollbar {
+            display: none;
+        }
+    }
 }
-html {
-  scroll-behavior: smooth;
-}
+
 /* Assignments Page Styles */
 .assignments-page {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 2rem 1rem;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem 1rem;
 }
 
 .assignment-section {
-  margin-bottom: 3rem;
+    margin-bottom: 3rem;
 }
 
 .assignment-section h2 {
-  color: var(--secondary-color);
-  border-bottom: 2px solid var(--primary-color);
-  padding-bottom: 0.5rem;
-  margin-bottom: 1.5rem;
+    color: var(--secondary);
+    border-bottom: 2px solid var(--primary);
+    padding-bottom: 0.5rem;
+    margin-bottom: 1.5rem;
 }
 
 .assignments-list, .case-studies-list {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
-  gap: 1.5rem;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(350px, 100%), 1fr));
+    gap: 1.5rem;
 }
 
 .assignment-card, .case-study-card {
-  background: white;
-  border-radius: 8px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  overflow: hidden;
-  transition: transform 0.3s, box-shadow 0.3s;
+    background: var(--background);
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    border-radius: 0.5rem;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.dark .assignment-card,
+.dark .case-study-card {
+    border-color: rgba(255, 255, 255, 0.1);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
 }
 
 .assignment-card:hover, .case-study-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+    transform: translateY(-0.25rem);
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.1);
+}
+
+.dark .assignment-card:hover,
+.dark .case-study-card:hover {
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3), 0 4px 6px -4px rgba(0, 0, 0, 0.3);
 }
 
 .assignment-header {
-  background: var(--secondary-color);
-  color: white;
-  padding: 1rem;
+    background: var(--secondary);
+    color: white;
+    padding: 1rem;
 }
 
 .assignment-header h3 {
-  margin: 0;
-  font-size: 1.1rem;
+    margin: 0;
+    font-size: 1.1rem;
 }
 
 .assignment-content {
-  padding: 1rem;
+    padding: 1rem;
 }
 
 .code-block {
-  margin-bottom: 1rem;
+    margin-bottom: 1rem;
 }
 
 .code-block h4 {
-  color: var(--primary-color);
-  margin-bottom: 0.5rem;
-  font-size: 0.9rem;
+    color: var(--primary);
+    margin-bottom: 0.5rem;
+    font-size: 0.9rem;
 }
 
 pre {
-  background: #f5f5f5;
-  padding: 1rem;
-  border-radius: 4px;
-  overflow-x: auto;
-  font-family: 'Courier New', Courier, monospace;
-  font-size: 0.85rem;
-  line-height: 1.4;
-  margin: 0;
+    background: rgba(0, 0, 0, 0.05);
+    padding: 1rem;
+    border-radius: 0.25rem;
+    overflow-x: auto;
+    font-family: 'Fira Code', 'Courier New', monospace;
+    font-size: 0.85rem;
+    line-height: 1.5;
+    tab-size: 2;
+}
+
+.dark pre {
+    background: rgba(0, 0, 0, 0.2);
 }
 
 .case-study-card {
-  padding: 1.5rem;
+    padding: 1.5rem;
 }
 
 .case-study-card h3 {
-  color: var(--secondary-color);
-  margin-bottom: 1rem;
+    color: var(--secondary);
+    margin-bottom: 1rem;
 }
 
 .description {
-  color: #555;
-  margin-bottom: 1rem;
-  line-height: 1.6;
+    color: var(--text);
+    opacity: 0.9;
+    margin-bottom: 1rem;
+    line-height: 1.6;
 }
 
 .tools-used h4 {
-  color: var(--primary-color);
-  margin-bottom: 0.5rem;
-  font-size: 0.9rem;
+    color: var(--primary);
+    margin-bottom: 0.5rem;
+    font-size: 0.9rem;
 }
 
 .tools-used ul {
-  list-style-type: disc;
-  padding-left: 1.5rem;
-  color: #555;
+    list-style-type: disc;
+    padding-left: 1.5rem;
+    color: var(--text);
+    opacity: 0.9;
 }
 
 .project-info {
-  margin-top: 3rem;
-  background: white;
-  padding: 2rem;
-  border-radius: 8px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    margin-top: 3rem;
+    background: var(--background);
+    padding: 2rem;
+    border-radius: 0.5rem;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    border: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.dark .project-info {
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+    border-color: rgba(255, 255, 255, 0.1);
 }
 
 .project-info h2 {
-  color: var(--secondary-color);
-  margin-bottom: 1.5rem;
-  text-align: center;
+    color: var(--secondary);
+    margin-bottom: 1.5rem;
+    text-align: center;
 }
 
 .info-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-  gap: 1.5rem;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(250px, 100%), 1fr));
+    gap: 1.5rem;
 }
 
 .info-card {
-  background: #f9f9f9;
-  padding: 1.5rem;
-  border-radius: 8px;
-  border-left: 4px solid var(--primary-color);
+    background: rgba(0, 0, 0, 0.03);
+    padding: 1.5rem;
+    border-radius: 0.5rem;
+    border-left: 4px solid var(--primary);
+}
+
+.dark .info-card {
+    background: rgba(255, 255, 255, 0.03);
 }
 
 .info-card h3 {
-  color: var(--secondary-color);
-  margin-bottom: 1rem;
-  font-size: 1.1rem;
+    color: var(--secondary);
+    margin-bottom: 1rem;
+    font-size: 1.1rem;
 }
 
 .info-card p {
-  margin: 0.5rem 0;
-  color: #555;
+    margin: 0.5rem 0;
+    color: var(--text);
+    opacity: 0.9;
 }
 
 /* Responsive Design */
 @media (max-width: 768px) {
-  .assignments-list, .case-studies-list, .info-grid {
-    grid-template-columns: 1fr;
-  }
+    .assignments-list, .case-studies-list, .info-grid {
+        grid-template-columns: 1fr;
+    }
+
+    html {
+        scroll-padding-top: 5rem;
+    }
+}
+
+/* Print styles */
+@media print {
+    body {
+        background: white !important;
+        color: black !important;
+        font-size: 12pt;
+    }
+
+    .assignment-card, .case-study-card, .project-info {
+        break-inside: avoid;
+        box-shadow: none !important;
+        border: 1px solid #ddd !important;
+    }
+
+    .no-print {
+        display: none !important;
+    }
 }

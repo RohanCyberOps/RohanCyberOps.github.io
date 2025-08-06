@@ -30,6 +30,7 @@ import Contact from './components/Contact';
 import Footer from './components/Footer';
 import Navbar from './components/Navbar';
 import Assignments from './components/Assignments';
+import LegalPage from "./components/LegalPage";
 
 function App() {
   const [darkMode, setDarkMode] = useState(() => {
@@ -85,10 +86,11 @@ function App() {
           <Graph /> {/* Integrated Graph component */}
           <Projects />
           <Blog />
-          <Contact />
           <Assignments />
+          <Contact />
 
             {/* Additional sections can be added here */}
+          <LegalPage />
         </main>
 
         <Footer />
